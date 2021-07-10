@@ -1,4 +1,5 @@
 # Arquivo principal (Main)
+# TODO :c, :o, :l, :q, :s
 from src.Utils.Logs import Logs
 from src.Core.Tags import Tags
 from src.Core.Analizador import Analizador
