@@ -6,39 +6,32 @@ from src.Core.Analizador import Analizador
 from src.LeituraEscritaArquivos.LeituraAquivos import LeituraArquivos
 from src.LeituraEscritaArquivos.EscritaAquivos import EscritaArquivos
 
+def interface():
+    print("\nComando                            Descrição                            Exemplo")
+    print(":d     realiza a divisão em tags da string do arquivo informado         :d entrada.txt") # ainda não implementado, segunda parte.
+    print(":c     carrega um arquivo com definições de tags                        :c tags.lex")
+    print(":o     especifica o caminho do arquivo de saída para a divisão em tags  :o saida.txt")
+    print(":p     realiza a divisão em tags da entrada informada                   :p saida.txt") # ainda não implementado, segunda parte.
+    print(":a     Lista as definições formais dos autômatos em memória             :a")   # ainda não implementado, segunda parte.
+    print(":l     Lista as definições de tag válidas                               :l")
+    print(":q     sair do programa                                                 :q")
+    print(":s     salvar as tags                                                   :s file.txt\n")
 
 def main():
+  interface()
   tags = Tags()
   analizador = Analizador()
   escrever_resul = EscritaArquivos()
   arq_saida = ''
 
   while True:
-    entrada = input()
-    # Realiza a divisão em tags da string do arquivo informado
-    if entrada.startswith(':d') or entrada.startswith(':D'):
-      nome_arquivo = entrada[2:]  # remove a opção :q
-      nome_arquivo = nome_arquivo.strip()  # remove espaços iniciais e finais
-      if ' ' in nome_arquivo:
-        Logs.error('Nome de arquivo não pode conter espaços!')
-      else:
-        if nome_arquivo:
-          arquivo_texto = LeituraArquivos.ler(nome_arquivo)
-          if arquivo_texto:
-            analizador.set_texto(arquivo_texto)
-            if analizador.analizar(tags):
-              # caso não tiver arquivo para saida, imprimir em tela
-              if arq_saida:
-                escrever_resul.escrever(
-                    arq_saida, ' '.join(analizador.get_resultado()))
-                Logs.info('Resultado salvo em arquivo!')
-              else:
-                print(analizador.get_resultado())
-        else:
-          Logs.error('Arquivo não especificado!')
+    entrada = input().lower()
+    # Realiza a divisão em tags da string do arquivo informado - Parte 2
+    if entrada.startswith(':d'):
+      Logs.warning('Comando será implementado na parte 2 do trabalho.') 
 
     # Carrega um arquivo com definições de tags
-    elif entrada.startswith(':c') or entrada.startswith(':C'):
+    elif entrada.startswith(':c'):
       nome_arquivo = entrada[2:]  # remove a opção :c
       nome_arquivo = nome_arquivo.strip()  # remove espaços iniciais e finais
       if ' ' in nome_arquivo:
@@ -60,9 +53,10 @@ def main():
         else:
           Logs.error('Arquivo não especificado!')
 
+
     # Especifica o caminho do arquivo de saída para a divisão em tags
-    elif entrada.startswith(':o') or entrada.startswith(':O'):
-      nome_arquivo = entrada[2:]  # remove a opção :o
+    elif entrada.startswith(':o'):
+      nome_arquivo = entrada[2:].strip()  # remove a opção :o
       nome_arquivo = nome_arquivo.strip()  # remove espaços iniciais e finais
       if ' ' in nome_arquivo:
         Logs.error('Nome de arquivo não pode conter espaços!')
@@ -74,30 +68,19 @@ def main():
           Logs.error('Arquivo de saida não fornecido!')
 
     # Realiza a divisão em tags da entrada informada
-    elif entrada.startswith(':p') or entrada.startswith(':P'):
-      texto = entrada[2:]  # remove a opção :p
-      texto = texto.strip()  # remove espaços iniciais e finais
-      if texto:
-        analizador.set_texto(texto)
-        if analizador.analizar(tags):
-          # caso não tiver arquivo para saida, imprimir em tela
-          if arq_saida:
-            escrever_resul.escrever(
-                arq_saida, ' '.join(analizador.get_resultado()))
-            Logs.info('Resultado salvo em arquivo!')
-          else:
-            print(analizador.get_resultado())
+    elif entrada.startswith(':p'):
+      Logs.warning("Comando será implementado na parte 2 do trabalho.") 
 
     # Lista as definições formais dos autômatos em memória
-    elif entrada.startswith(':a') or entrada.startswith(':A'):
-      print('Lista as definições formais dos autômatos em memória')
+    elif entrada.startswith(':a'):
+      Logs.warning("Comando será implementado na parte 2 do trabalho.")
 
     # Lista as definições de tag válidas
-    elif entrada.startswith(':l') or entrada.startswith(':L'):
+    elif entrada.startswith(':l') :
       for tag in tags.get_todas_tags():
         print(f'{tag} {tags.get_tag(tag)}')
 
-    elif entrada.startswith(':s') or entrada.startswith(':S'):  # Salvar as tags
+    elif entrada.startswith(':s'):  # Salvar as tags
       nome_arquivo = entrada[2:]  # remove a opção :s
       nome_arquivo = nome_arquivo.strip()  # remove espaços iniciais e finais
       if nome_arquivo:
