@@ -26,13 +26,9 @@ def main():
 
   while True:
     entrada = input().lower()
-    # Realiza a divisão em tags da string do arquivo informado - Parte 2
-    if entrada.startswith(':d'):
-      Logs.warning('Comando será implementado na parte 2 do trabalho.') 
-
-
+    # Primeira parte
     # Comando :c Carrega um arquivo com definições de tags
-    elif entrada.startswith(':c'):
+    if entrada.startswith(':c'):
       nome_arquivo = entrada[2:].strip() # remove a opção :c, remove espaços iniciais e finais
       if ' ' in nome_arquivo:
         Logs.error('Nome de arquivo não pode conter espaços!')
@@ -66,17 +62,6 @@ def main():
         else:
           Logs.error('Arquivo de saida não fornecido!')
 
-
-    # Realiza a divisão em tags da entrada informada
-    elif entrada.startswith(':p'):
-      Logs.warning("Comando será implementado na parte 2 do trabalho.") 
-
-
-    # Lista as definições formais dos autômatos em memória
-    elif entrada.startswith(':a'):
-      Logs.warning("Comando será implementado na parte 2 do trabalho.")
-
-
     # Comando :l Lista as definições de tag válidas
     elif entrada.startswith(':l') :
       for tag in tags.get_todas_tags():
@@ -98,6 +83,19 @@ def main():
       escrever_resul.fechar_arquivo()
       break
 
+
+#A fazer, segunda parte
+    elif entrada.startswith(':d'):
+      Logs.warning('Comando será implementado na parte 2 do trabalho.') 
+
+      # Realiza a divisão em tags da entrada informada
+    elif entrada.startswith(':p'):
+      Logs.warning("Comando será implementado na parte 2 do trabalho.") 
+
+
+    # Lista as definições formais dos autômatos em memória
+    elif entrada.startswith(':a'):
+      Logs.warning("Comando será implementado na parte 2 do trabalho.")
 
 
     elif entrada.startswith(':'):  # Entrada inválida
