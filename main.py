@@ -47,7 +47,7 @@ def main():
                 Logs.error('Formato invalido de tag!')
             Logs.info('Todas as tags foram lidas!')
         else:
-          Logs.error('Arquivo nao especificado!')
+          Logs.error('Arquivo nao especificado')
 
 
     # Comando :o Especifica o caminho do arquivo de saida para a divisao em tags
