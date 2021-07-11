@@ -11,7 +11,7 @@ def interface():
     print(":d     realiza a divisão em tags da string do arquivo informado         :d entrada.txt") # ainda não implementado, segunda parte.
     print(":c     carrega um arquivo com definições de tags                        :c tags.lex")
     print(":o     especifica o caminho do arquivo de saída para a divisão em tags  :o saida.txt")
-    print(":p     realiza a divisão em tags da entrada informada                   :p saida.txt") # ainda não implementado, segunda parte.
+    print(":p     realiza a divisão em tags da entrada informada                   :p x=420") # ainda não implementado, segunda parte.
     print(":a     Lista as definições formais dos autômatos em memória             :a")   # ainda não implementado, segunda parte.
     print(":l     Lista as definições de tag válidas                               :l")
     print(":q     sair do programa                                                 :q")
@@ -20,7 +20,7 @@ def interface():
 def main():
   interface()
   tags = Tags()
-  analizador = Analizador()
+  analizador = Analizador() # segunda entrega.
   escrever_resul = EscritaArquivos()
   arq_saida = ''
 
@@ -30,7 +30,8 @@ def main():
     if entrada.startswith(':d'):
       Logs.warning('Comando será implementado na parte 2 do trabalho.') 
 
-    # Carrega um arquivo com definições de tags
+
+    # Comando :c Carrega um arquivo com definições de tags
     elif entrada.startswith(':c'):
       nome_arquivo = entrada[2:].strip() # remove a opção :c, remove espaços iniciais e finais
       if ' ' in nome_arquivo:
@@ -53,7 +54,7 @@ def main():
           Logs.error('Arquivo não especificado!')
 
 
-    # Especifica o caminho do arquivo de saída para a divisão em tags
+    # Comando :o Especifica o caminho do arquivo de saída para a divisão em tags
     elif entrada.startswith(':o'):
       nome_arquivo = entrada[2:].strip()  # remove a opção :o
       if ' ' in nome_arquivo:
@@ -65,20 +66,25 @@ def main():
         else:
           Logs.error('Arquivo de saida não fornecido!')
 
+
     # Realiza a divisão em tags da entrada informada
     elif entrada.startswith(':p'):
       Logs.warning("Comando será implementado na parte 2 do trabalho.") 
+
 
     # Lista as definições formais dos autômatos em memória
     elif entrada.startswith(':a'):
       Logs.warning("Comando será implementado na parte 2 do trabalho.")
 
-    # Lista as definições de tag válidas
+
+    # Comando :l Lista as definições de tag válidas
     elif entrada.startswith(':l') :
       for tag in tags.get_todas_tags():
         print(f'{tag} {tags.get_tag(tag)}')
 
-    elif entrada.startswith(':s'):  # Salvar as tags
+
+    # Comando :s Salvar tags.
+    elif entrada.startswith(':s'):  
       nome_arquivo = entrada[2:].strip()  # remove a opção :s
       if nome_arquivo:
         conteudo_saida = ''
@@ -92,8 +98,12 @@ def main():
       escrever_resul.fechar_arquivo()
       break
 
+
+
     elif entrada.startswith(':'):  # Entrada inválida
       Logs.info('Entrada inválida!')
+
+
 
     else:  # Inserção de tag
       if ': ' in entrada:
