@@ -32,8 +32,7 @@ def main():
 
     # Carrega um arquivo com definições de tags
     elif entrada.startswith(':c'):
-      nome_arquivo = entrada[2:]  # remove a opção :c
-      nome_arquivo = nome_arquivo.strip()  # remove espaços iniciais e finais
+      nome_arquivo = entrada[2:].strip() # remove a opção :c, remove espaços iniciais e finais
       if ' ' in nome_arquivo:
         Logs.error('Nome de arquivo não pode conter espaços!')
       else:
@@ -57,7 +56,6 @@ def main():
     # Especifica o caminho do arquivo de saída para a divisão em tags
     elif entrada.startswith(':o'):
       nome_arquivo = entrada[2:].strip()  # remove a opção :o
-      nome_arquivo = nome_arquivo.strip()  # remove espaços iniciais e finais
       if ' ' in nome_arquivo:
         Logs.error('Nome de arquivo não pode conter espaços!')
       else:
@@ -81,8 +79,7 @@ def main():
         print(f'{tag} {tags.get_tag(tag)}')
 
     elif entrada.startswith(':s'):  # Salvar as tags
-      nome_arquivo = entrada[2:]  # remove a opção :s
-      nome_arquivo = nome_arquivo.strip()  # remove espaços iniciais e finais
+      nome_arquivo = entrada[2:].strip()  # remove a opção :s
       if nome_arquivo:
         conteudo_saida = ''
         for tag in tags.get_todas_tags():
