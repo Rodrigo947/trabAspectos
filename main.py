@@ -40,7 +40,7 @@ def main():
               if ': ' in linha:
                 # divide a tags em nome_tag (tag[0]) e a tag em si (tag[1])
                 tag = linha.split(': ', 1)
-                # remove possiveis espaços iniciais e finais
+                # remove possiveis espacos iniciais e finais
                 tag = [i.strip() for i in tag]
                 tags.adicionar_tag(tag[0].upper(), tag[1])
               else:
@@ -54,7 +54,7 @@ def main():
     elif entrada.startswith(':o'):
       nome_arquivo = entrada[2:].strip()  # remove a opcao :o
       if ' ' in nome_arquivo:
-        Logs.error('Nome de arquivo nao pode conter espaços!')
+        Logs.error('Nome de arquivo nao pode conter espacos!')
       else:
         if nome_arquivo:
           arq_saida = nome_arquivo
@@ -93,12 +93,12 @@ def main():
       Logs.warning("Comando sera implementado na parte 2 do trabalho.") 
 
 
-    # Lista as definições formais dos autômatos em memória
+    # Lista as definicoes formais dos automatos em memoria
     elif entrada.startswith(':a'):
       Logs.warning("Comando sera implementado na parte 2 do trabalho.")
 
 
-    elif entrada.startswith(':'):  # Entrada inválida
+    elif entrada.startswith(':'):  # Entrada invalida
       Logs.info('Entrada invalida!')
 
 
