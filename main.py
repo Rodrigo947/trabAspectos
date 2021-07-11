@@ -8,30 +8,30 @@ from src.LeituraEscritaArquivos.EscritaAquivos import EscritaArquivos
 
 def interface():
     print("\nComando                            Descrição                            Exemplo")
-    print(":d     realiza a divisão em tags da string do arquivo informado         :d entrada.txt") # ainda não implementado, segunda parte.
-    print(":c     carrega um arquivo com definições de tags                        :c tags.lex")
-    print(":o     especifica o caminho do arquivo de saída para a divisão em tags  :o saida.txt")
-    print(":p     realiza a divisão em tags da entrada informada                   :p x=420") # ainda não implementado, segunda parte.
-    print(":a     Lista as definições formais dos autômatos em memória             :a")   # ainda não implementado, segunda parte.
-    print(":l     Lista as definições de tag válidas                               :l")
+    print(":d     realiza a divisao em tags da string do arquivo informado         :d entrada.txt") # ainda nao implementado, segunda parte.
+    print(":c     carrega um arquivo com definicoes de tags                        :c tags.lex")
+    print(":o     especifica o caminho do arquivo de saida para a divisao em tags  :o saida.txt")
+    print(":p     realiza a divisao em tags da entrada informada                   :p x=420") # ainda nao implementado, segunda parte.
+    print(":a     Lista as definicoes formais dos automatos em memoria             :a")   # ainda nao implementado, segunda parte.
+    print(":l     Lista as definicoes de tag validas                               :l")
     print(":q     sair do programa                                                 :q")
     print(":s     salvar as tags                                                   :s file.txt\n")
 
 def main():
-  interface()
   tags = Tags()
   analizador = Analizador() # segunda entrega.
   escrever_resul = EscritaArquivos()
   arq_saida = ''
 
   while True:
+    interface()
     entrada = input().lower()
     # Primeira parte
-    # Comando :c Carrega um arquivo com definições de tags
+    # Comando :c Carrega um arquivo com definicoes de tags
     if entrada.startswith(':c'):
-      nome_arquivo = entrada[2:].strip() # remove a opção :c, remove espaços iniciais e finais
+      nome_arquivo = entrada[2:].strip() # remove a opcao :c, remove espaços iniciais e finais
       if ' ' in nome_arquivo:
-        Logs.error('Nome de arquivo não pode conter espaços!')
+        Logs.error('Nome de arquivo nao pode conter espaços!')
       else:
         if nome_arquivo:
           arquivo_tags = LeituraArquivos.ler(nome_arquivo)
@@ -44,25 +44,25 @@ def main():
                 tag = [i.strip() for i in tag]
                 tags.adicionar_tag(tag[0].upper(), tag[1])
               else:
-                Logs.error('Formato inválido de tag!')
+                Logs.error('Formato invalido de tag!')
             Logs.info('Todas as tags foram lidas!')
         else:
-          Logs.error('Arquivo não especificado!')
+          Logs.error('Arquivo nao especificado!')
 
 
-    # Comando :o Especifica o caminho do arquivo de saída para a divisão em tags
+    # Comando :o Especifica o caminho do arquivo de saida para a divisao em tags
     elif entrada.startswith(':o'):
-      nome_arquivo = entrada[2:].strip()  # remove a opção :o
+      nome_arquivo = entrada[2:].strip()  # remove a opcao :o
       if ' ' in nome_arquivo:
-        Logs.error('Nome de arquivo não pode conter espaços!')
+        Logs.error('Nome de arquivo nao pode conter espaços!')
       else:
         if nome_arquivo:
           arq_saida = nome_arquivo
-          Logs.info('Arquivo de saída especificado!')
+          Logs.info('Arquivo de saida especificado!')
         else:
           Logs.error('Arquivo de saida não fornecido!')
 
-    # Comando :l Lista as definições de tag válidas
+    # Comando :l Lista as definicoes de tag validas
     elif entrada.startswith(':l') :
       for tag in tags.get_todas_tags():
         print(f'{tag} {tags.get_tag(tag)}')
@@ -70,14 +70,14 @@ def main():
 
     # Comando :s Salvar tags.
     elif entrada.startswith(':s'):  
-      nome_arquivo = entrada[2:].strip()  # remove a opção :s
+      nome_arquivo = entrada[2:].strip()  # remove a opcao :s
       if nome_arquivo:
         conteudo_saida = ''
         for tag in tags.get_todas_tags():
           conteudo_saida += tag + ' ' + tags.get_tag(tag) + '\n'
         EscritaArquivos.escrever_static(nome_arquivo, conteudo_saida)
       else:
-        Logs.error('Arquivo de saida não fornecido!')
+        Logs.error('Arquivo de saida nao fornecido!')
 
     elif entrada.startswith(':q') or entrada.startswith(':Q'):  # Sair do programa
       escrever_resul.fechar_arquivo()
@@ -86,20 +86,20 @@ def main():
 
 #A fazer, segunda parte
     elif entrada.startswith(':d'):
-      Logs.warning('Comando será implementado na parte 2 do trabalho.') 
+      Logs.warning('Comando sera implementado na parte 2 do trabalho.') 
 
       # Realiza a divisão em tags da entrada informada
     elif entrada.startswith(':p'):
-      Logs.warning("Comando será implementado na parte 2 do trabalho.") 
+      Logs.warning("Comando sera implementado na parte 2 do trabalho.") 
 
 
     # Lista as definições formais dos autômatos em memória
     elif entrada.startswith(':a'):
-      Logs.warning("Comando será implementado na parte 2 do trabalho.")
+      Logs.warning("Comando sera implementado na parte 2 do trabalho.")
 
 
     elif entrada.startswith(':'):  # Entrada inválida
-      Logs.info('Entrada inválida!')
+      Logs.info('Entrada invalida!')
 
 
 
@@ -111,7 +111,7 @@ def main():
         tag = [i.strip() for i in tag]
         tags.adicionar_tag(tag[0].upper(), tag[1])
       else:
-        Logs.error('Formato inválido de tag!')
+        Logs.error('Formato invalido de tag!')
 
 
 if __name__ == "__main__":
