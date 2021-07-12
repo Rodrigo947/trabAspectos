@@ -39,13 +39,23 @@ def main():
   while True:
     entrada = input().lower()
     # Primeira parte
+    # Comando :o Especifica o caminho do arquivo de saida para a divisao em tags
+    if entrada.startswith(':o'):
+      nome_arquivo = entrada[2:].strip()  # remove a opcao :o
+      if ' ' in nome_arquivo:
+        Logs.error('Nome de arquivo nao pode conter espacos!')
+      else:
+        if nome_arquivo:
+          arq_saida = nome_arquivo
+          Logs.info('Arquivo de saida especificado!')
+        else:
+          Logs.error('Arquivo de saida não fornecido!')
+
     # Comando :c Carrega um arquivo com definicoes de tags
     if entrada.startswith(':c'):
       # remove a opcao :c, remove espaços iniciais e finais
       nome_arquivo = entrada[2:].strip()
-      if ' ' in nome_arquivo:
-        Logs.error('Nome de arquivo nao pode conter espaços!')
-      else:
+      if ' ' not in nome_arquivo:
         if nome_arquivo:
           arquivo_tags = LeituraArquivos.ler(nome_arquivo)
           if arquivo_tags:
@@ -60,23 +70,17 @@ def main():
             Logs.info('Todas as tags foram lidas!')
         else:
           Logs.error('Arquivo nao especificado')
-
-    # Comando :o Especifica o caminho do arquivo de saida para a divisao em tags
-    elif entrada.startswith(':o'):
-      nome_arquivo = entrada[2:].strip()  # remove a opcao :o
-      if ' ' in nome_arquivo:
-        Logs.error('Nome de arquivo nao pode conter espacos!')
       else:
-        if nome_arquivo:
-          arq_saida = nome_arquivo
-          Logs.info('Arquivo de saida especificado!')
-        else:
-          Logs.error('Arquivo de saida não fornecido!')
+        Logs.error('Nome de arquivo nao pode conter espaços!')
 
     # Comando :l Lista as definicoes de tag validas
     elif entrada.startswith(':l'):
       for tag in tags.get_todas_tags():
         print(f'{tag}: {tags.get_tag(tag)}')
+
+    elif entrada.startswith(':q') or entrada.startswith(':Q'):  # Sair do programa
+      escrever_resul.fechar_arquivo()
+      break
 
     # Comando :s Salvar tags.
     elif entrada.startswith(':s'):
@@ -88,10 +92,6 @@ def main():
         EscritaArquivos.escrever_static(nome_arquivo, conteudo_saida)
       else:
         Logs.error('Arquivo de saida nao fornecido!')
-
-    elif entrada.startswith(':q') or entrada.startswith(':Q'):  # Sair do programa
-      escrever_resul.fechar_arquivo()
-      break
 
     # Comando :h Lista os comandos aceitos.
     elif entrada.startswith(':h'):
