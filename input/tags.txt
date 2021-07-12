@@ -1,3 +1,12 @@
-INT:  01+2+3+4+5+6+7+8+9+01+2+3+4+5+6+7+8+9+*.
+INT_ERROR: 01+2+3+4+5+6+7+8+9+01+2+3+4+5+6+7+8+9+*.1
+INT: 01+2+3+4+5+6+7+8+9+01+2+3+4+5+6+7+8+9+*.
+EQUALS_ERROR: =\*
 EQUALS: =
+VAR_ERROR: ab+c+x+.
 VAR: ab+c+x+
+SPACE:  
+TEST_ERROR: /\*\*/*
+TEST: /\*\*/+
+PAR: ab.ba.+aa.+bb.+*
+AB_ERROR: a*b*
+AB: a*b*.

@@ -4,29 +4,74 @@ from src.Utils.Logs import Logs
 class Tags(object):
   __tags = {}
 
-  def adicionar_tag(self, nometag: str, tag: str):
-    if self.valida_tag(nometag, tag):
-      self.__tags[nometag] = tag
-      Logs.info(f'A tag {nometag} foi inserida!')
+  def adicionar_tag(self, nomeTag: str, expressaoTag: str):
+    if self.valida_tag(nomeTag, expressaoTag):
+      self.__tags[nomeTag] = expressaoTag
 
-  def remover_tag(self, nometag):
-    if nometag in self.__tags:
-      del self.__tags[nometag]
+  def remover_tag(self, nomeTag):
+    if nomeTag in self.__tags:
+      del self.__tags[nomeTag]
 
-  def get_tag(self, nometag):
-    if nometag in self.__tags:
-      return self.__tags[nometag]
+  def get_tag(self, nomeTag):
+    if nomeTag in self.__tags:
+      return self.__tags[nomeTag]
     else:
-      return ''
+      Logs.info(f'Tag {nomeTag} nao foi definida.')
 
   def get_todas_tags(self):
     return self.__tags
 
-  def valida_tag(self, nometag: str, tag: str):
-    # Tag já existente
-    if nometag in self.__tags:
-      Logs.error(f'A tag {nometag} já foi inserida!')
-      return False
+  def valida_tag(self, nomeTag: str, expressaoTag: str):
+    pilha = []
+    expressao = ''
+    charAnterior = ''
+    charsEscape = ['n', '\\', '*', '.', '+', 'l']
+    expressaoTag = expressaoTag.rstrip('\n')  # Removendo o ENTER do input
+    # Pecorrendo cada char da expressao
+    for char in expressaoTag:
 
-    # Método para validar a tag (a fazer)
-    return True
+      # Se char atual for um escape definido ele é adicioando na pilha
+      if(charAnterior == '\\'):
+        if (char in charsEscape):
+          expressao = pilha.pop() + char
+          pilha.append(expressao)
+          charAnterior = ''
+        else:
+          Logs.error(
+              f'Tag {nomeTag} nao recohecida: expressao invalida. Caractere escape nao reconhecido')
+          return False
+
+      else:
+        if (char == '.' or char == '+'):
+          if len(pilha) < 2:
+            Logs.error(
+                f'Tag {nomeTag} nao recohecida: expressao invalida. Operador + ou . precisa de dois elementos')
+            return False
+          else:
+            expressao = pilha.pop() + char + pilha.pop()
+            pilha.append(expressao)
+
+        elif (char == '*'):
+          if len(pilha) < 1:
+            Logs.error(
+                f'Tag {nomeTag} nao recohecida: expressao invalida. Operador * precisa de um elemento')
+            return False
+          else:
+            expressao = pilha.pop() + char
+            pilha.append(expressao)
+
+        # Se não for nenhum caractere especial, insere normalmente na pilha
+        else:
+          if(char != '\\'):
+            pilha.append(char)
+
+        charAnterior = char
+
+    # Ao passar por cada posição da expressao, verifica se a pilha possui apenas
+    # uma elemento, se verdadeiro a tag e valida
+    if len(pilha) == 1:
+      Logs.info(f'Tag {nomeTag} foi reconhecida.')
+      return True
+    else:
+      Logs.error(f'Tag {nomeTag} nao recohecida: expressao invalida')
+      return False
