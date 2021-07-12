@@ -1,6 +1,6 @@
 from src.Utils.Logs import Logs
 
-caminho = '../../output/'
+caminho = './output/'
 
 
 class EscritaArquivos(object):

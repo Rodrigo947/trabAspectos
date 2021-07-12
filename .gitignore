@@ -1,1 +1,4 @@
 __pycache__
+.vscode/launch.json
+windows_build
+linux_build
