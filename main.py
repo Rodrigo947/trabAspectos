@@ -1,4 +1,4 @@
-# Trabalho de Aspectos Teóricos da Computação
+# Trabalho de Aspectos Teoricos da Computacao
 #
 # Lucas Lino do Carmo Freitas   201876034
 # Rodrigo Torres Rego           201876029
@@ -14,7 +14,7 @@ from src.LeituraEscritaArquivos.EscritaAquivos import EscritaArquivos
 
 
 def interface():
-  print("\nComando                            Descrição                            Exemplo")
+  print("\nComando                            Descricao                            Exemplo")
   # ainda nao implementado, segunda parte.
   print(":d     Realiza a divisao em tags da string do arquivo informado         :d entrada.txt")
   print(":c     Carrega um arquivo com definicoes de tags                        :c tags.lex")
@@ -49,11 +49,11 @@ def main():
           arq_saida = nome_arquivo
           Logs.info('Arquivo de saida especificado!')
         else:
-          Logs.error('Arquivo de saida não fornecido!')
+          Logs.error('Arquivo de saida nao fornecido!')
 
     # Comando :c Carrega um arquivo com definicoes de tags
     if entrada.startswith(':c'):
-      # remove a opcao :c, remove espaços iniciais e finais
+      # remove a opcao :c, remove espacos iniciais e finais
       nome_arquivo = entrada[2:].strip()
       if ' ' not in nome_arquivo:
         if nome_arquivo:
@@ -71,16 +71,12 @@ def main():
         else:
           Logs.error('Arquivo nao especificado')
       else:
-        Logs.error('Nome de arquivo nao pode conter espaços!')
+        Logs.error('Nome de arquivo nao pode conter espacos!')
 
     # Comando :l Lista as definicoes de tag validas
     elif entrada.startswith(':l'):
       for tag in tags.get_todas_tags():
-        print(f'{tag}: {tags.get_tag(tag)}')
-
-    elif entrada.startswith(':q') or entrada.startswith(':Q'):  # Sair do programa
-      escrever_resul.fechar_arquivo()
-      break
+        print(tag+': '+tags.get_tag(tag))
 
     # Comando :s Salvar tags.
     elif entrada.startswith(':s'):
@@ -93,6 +89,10 @@ def main():
       else:
         Logs.error('Arquivo de saida nao fornecido!')
 
+    elif entrada.startswith(':q'):  # Sair do programa
+      escrever_resul.fechar_arquivo()
+      break
+
     # Comando :h Lista os comandos aceitos.
     elif entrada.startswith(':h'):
       interface()
@@ -101,7 +101,7 @@ def main():
     elif entrada.startswith(':d'):
       Logs.warning('Comando sera implementado na parte 2 do trabalho.')
 
-      # Realiza a divisão em tags da entrada informada
+      # Realiza a divisao em tags da entrada informada
     elif entrada.startswith(':p'):
       Logs.warning("Comando sera implementado na parte 2 do trabalho.")
 
@@ -112,11 +112,11 @@ def main():
     elif entrada.startswith(':'):  # Entrada invalida
       Logs.info('Entrada invalida!')
 
-    else:  # Inserção de tag
+    else:  # Insercao de tag
       if ': ' in entrada:
         # divide a tags em nome_tag (tag[0]) e a tag em si (tag[1])
         tag = entrada.split(': ', 1)
-        # remove possiveis espaços iniciais e finais
+        # remove possiveis espacos iniciais e finais
         tags.adicionar_tag(tag[0].upper(), tag[1])
       else:
         Logs.error('Formato invalido de tag!')
