@@ -38,18 +38,6 @@ def main():
   while True:
     entrada = input().lower()
     # Primeira parte
-    # Comando :o Especifica o caminho do arquivo de saida para a divisao em tags
-    if entrada.startswith(':o'):
-      nome_arquivo = entrada[2:].strip()  # remove a opcao :o
-      if ' ' in nome_arquivo:
-        Logs.error('Nome de arquivo nao pode conter espacos!')
-      else:
-        if nome_arquivo:
-          arq_saida = nome_arquivo
-          Logs.info('Arquivo de saida especificado!')
-        else:
-          Logs.error('Arquivo de saida nao fornecido!')
-
     # Comando :c Carrega um arquivo com definicoes de tags
     if entrada.startswith(':c'):
       # remove a opcao :c, remove espacos iniciais e finais
@@ -71,6 +59,18 @@ def main():
           Logs.error('Arquivo nao especificado')
       else:
         Logs.error('Nome de arquivo nao pode conter espacos!')
+
+    # Comando :o Especifica o caminho do arquivo de saida para a divisao em tags
+    if entrada.startswith(':o'):
+      nome_arquivo = entrada[2:].strip()  # remove a opcao :o
+      if ' ' in nome_arquivo:
+        Logs.error('Nome de arquivo nao pode conter espacos!')
+      else:
+        if nome_arquivo:
+          arq_saida = nome_arquivo
+          Logs.info('Arquivo de saida especificado!')
+        else:
+          Logs.error('Arquivo de saida nao fornecido!')
 
     # Comando :l Lista as definicoes de tag validas
     elif entrada.startswith(':l'):
