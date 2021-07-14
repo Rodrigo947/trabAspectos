@@ -61,7 +61,7 @@ def main():
         Logs.error('Nome de arquivo nao pode conter espacos!')
 
     # Comando :o Especifica o caminho do arquivo de saida para a divisao em tags
-    if entrada.startswith(':o'):
+    elif entrada.startswith(':o'):
       nome_arquivo = entrada[2:].strip()  # remove a opcao :o
       if ' ' in nome_arquivo:
         Logs.error('Nome de arquivo nao pode conter espacos!')
