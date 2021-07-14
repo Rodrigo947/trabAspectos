@@ -5,7 +5,6 @@
 # Wiliam Rocha dos Santos       201876031
 
 # Arquivo principal (Main)
-from colorama import init
 from src.Utils.Logs import Logs
 from src.Core.Tags import Tags
 from src.Core.Analizador import Analizador
@@ -123,5 +122,4 @@ def main():
 
 
 if __name__ == "__main__":
-  init()
   main()

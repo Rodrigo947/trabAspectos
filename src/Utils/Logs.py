@@ -4,9 +4,6 @@
 # Rodrigo Torres Rego           201876029
 # Wiliam Rocha dos Santos       201876031
 
-from colorama import Fore, Style
-
-
 class Logs(object):
   '''
   Classe responsável pela impressão de avisos no terminal
@@ -17,7 +14,7 @@ class Logs(object):
     Imprime a mensagem passada por parametro com
     a tag [INFO] no começo da mensagem
     '''
-    print(Fore.GREEN + '[INFO] ' + Style.RESET_ALL + f'{mensagem}')
+    print('\033[32m' + '[INFO] ' + '\033[39m' + f'{mensagem}')
 
   @staticmethod
   def error(mensagem: str) -> None:
@@ -25,7 +22,7 @@ class Logs(object):
     Imprime a mensagem passada por parametro com
     a tag [ERROR] no começo da mensagem
     '''
-    print(Fore.RED + '[ERROR] ' + Style.RESET_ALL + f'{mensagem}')
+    print('\033[31m' + '[ERROR] ' + '\033[39m' + f'{mensagem}')
 
   @staticmethod
   def warning(mensagem: str) -> None:
@@ -33,4 +30,4 @@ class Logs(object):
     Imprime a mensagem passada por parametro com
     a tag [WARNING] no começo da mensagem
     '''
-    print(Fore.YELLOW + '[WARNING] ' + Style.RESET_ALL + f'{mensagem}')
+    print('\033[33m' + '[WARNING] ' + '\033[39m' + f'{mensagem}')
