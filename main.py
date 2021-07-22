@@ -109,7 +109,7 @@ def main():
       Logs.warning("Comando sera implementado na parte 2 do trabalho.")
 
     elif entrada.startswith(':'):  # Entrada invalida
-      Logs.info('Entrada invalida!')
+      Logs.info('Comando invalido!')
 
     else:  # Insercao de tag
       if ': ' in entrada:

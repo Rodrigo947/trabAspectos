@@ -6,7 +6,7 @@
 
 from src.Utils.Logs import Logs
 
-
+# TODO Imprimir definições de tags quando estiver validando
 class Tags(object):
   __tags = {}
 
@@ -27,6 +27,9 @@ class Tags(object):
   def get_todas_tags(self):
     return self.__tags
 
+  # TODO verificar \n\\*
+  # TODO Verifica se existe a mesma tag antes de validar. Alguma pergunta do tipo:
+  # "deseja sobrescrever?"
   def valida_tag(self, nomeTag: str, expressaoTag: str):
     pilha = []
     expressao = ''

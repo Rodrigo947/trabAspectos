@@ -5,7 +5,8 @@
 # Wiliam Rocha dos Santos       201876031
 
 from src.Utils.Logs import Logs
-
+# TODO A pessoa pode especificar qual caminho salvar e ler
+# TODO arquivo de saida tem que ter um formato de impressão igual ao formato de entrada
 caminho = './output/'
 
 
