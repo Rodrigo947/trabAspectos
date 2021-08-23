@@ -6,13 +6,24 @@
 
 from src.Utils.Logs import Logs
 
-# TODO Imprimir definições de tags quando estiver validando
+
 class Tags(object):
   __tags = {}
 
   def adicionar_tag(self, nomeTag: str, expressaoTag: str):
-    if self.valida_tag(nomeTag, expressaoTag):
-      self.__tags[nomeTag] = expressaoTag
+    # Tag já existente
+    if nomeTag in self.__tags:
+      Logs.warning(
+          f'A tag {nomeTag} já foi inserida! Deseja sobrescrever? [s/n]')
+      entrada = input().lower()
+      if entrada == 's':
+        if self.valida_tag(nomeTag, expressaoTag):
+          self.__tags[nomeTag] = expressaoTag
+      else:
+        Logs.info(f'A tag {nomeTag} foi descartada!')
+    else:
+      if self.valida_tag(nomeTag, expressaoTag):
+        self.__tags[nomeTag] = expressaoTag
 
   def remover_tag(self, nomeTag):
     if nomeTag in self.__tags:
@@ -27,23 +38,19 @@ class Tags(object):
   def get_todas_tags(self):
     return self.__tags
 
-  # TODO verificar \n\\*
-  # TODO Verifica se existe a mesma tag antes de validar. Alguma pergunta do tipo:
-  # "deseja sobrescrever?"
+  # TODO verificar \n\\+
   def valida_tag(self, nomeTag: str, expressaoTag: str):
     pilha = []
     expressao = ''
     charAnterior = ''
     charsEscape = ['n', '\\', '*', '.', '+', 'l']
-    expressaoTag = expressaoTag.rstrip('\n')  # Removendo o ENTER do input
     # Pecorrendo cada char da expressao
     for char in expressaoTag:
 
       # Se char atual for um escape definido ele é adicioando na pilha
       if(charAnterior == '\\'):
         if (char in charsEscape):
-          expressao = pilha.pop() + char
-          pilha.append(expressao)
+          pilha.append('\\'+char)
           charAnterior = ''
         else:
           Logs.error(
@@ -80,6 +87,7 @@ class Tags(object):
     # uma elemento, se verdadeiro a tag e valida
     if len(pilha) == 1:
       Logs.info(f'Tag {nomeTag} foi reconhecida.')
+      Logs.info(f'{nomeTag}: '+pilha[0])
       return True
     else:
       Logs.error(f'Tag {nomeTag} nao recohecida: expressao invalida')

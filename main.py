@@ -51,7 +51,7 @@ def main():
                 # divide a tags em nome_tag (tag[0]) e a tag em si (tag[1])
                 tag = linha.split(': ', 1)
                 # remove possiveis espacos iniciais e finais
-                tags.adicionar_tag(tag[0].upper(), tag[1])
+                tags.adicionar_tag(tag[0].upper(), tag[1].rstrip('\n'))
               else:
                 Logs.error('Formato invalido de tag!')
             Logs.info('Todas as tags foram lidas!')
@@ -83,7 +83,7 @@ def main():
       if nome_arquivo:
         conteudo_saida = ''
         for tag in tags.get_todas_tags():
-          conteudo_saida += tag + ' ' + tags.get_tag(tag) + '\n'
+          conteudo_saida += tag + ': ' + tags.get_tag(tag) + '\n'
         EscritaArquivos.escrever_static(nome_arquivo, conteudo_saida)
       else:
         Logs.error('Arquivo de saida nao fornecido!')

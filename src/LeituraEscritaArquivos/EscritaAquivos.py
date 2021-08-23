@@ -7,7 +7,6 @@
 from src.Utils.Logs import Logs
 # TODO A pessoa pode especificar qual caminho salvar e ler
 # TODO arquivo de saida tem que ter um formato de impressão igual ao formato de entrada
-caminho = './output/'
 
 
 class EscritaArquivos(object):
@@ -18,7 +17,7 @@ class EscritaArquivos(object):
   def escrever(self, arquivo: str, conteudo: str):
     try:
       if self.__file is None:
-        self.__file = open(caminho + arquivo, 'w')
+        self.__file = open(arquivo, 'w')
       self.__file.write(conteudo)
       self.__escrevendo = True
     except IOError:
@@ -32,7 +31,7 @@ class EscritaArquivos(object):
   @staticmethod
   def escrever_static(arquivo: str, conteudo: str):
     try:
-      file = open(caminho + arquivo, 'w')
+      file = open(arquivo, 'w')
       file.write(conteudo)
       file.close()
       Logs.info(f'O arquivo {arquivo} foi salvo!')
