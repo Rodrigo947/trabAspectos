@@ -9,6 +9,7 @@ from src.Utils.Logs import Logs
 
 class Tags(object):
   __tags = {}
+  __tagsNormalizada = {}
 
   def adicionar_tag(self, nomeTag: str, expressaoTag: str):
     # Tag já existente
@@ -19,11 +20,18 @@ class Tags(object):
       if entrada == 's':
         if self.valida_tag(nomeTag, expressaoTag):
           self.__tags[nomeTag] = expressaoTag
+          return True
+        else:
+          return False
       else:
         Logs.info(f'A tag {nomeTag} foi descartada!')
+        return False
     else:
       if self.valida_tag(nomeTag, expressaoTag):
         self.__tags[nomeTag] = expressaoTag
+        return True
+      else:
+        return False
 
   def remover_tag(self, nomeTag):
     if nomeTag in self.__tags:
@@ -37,6 +45,15 @@ class Tags(object):
 
   def get_todas_tags(self):
     return self.__tags
+
+  def get_tag_normalizada(self, nomeTag):
+    if nomeTag in self.__tagsNormalizada:
+      return self.__tagsNormalizada[nomeTag]
+    else:
+      Logs.info(f'Tag {nomeTag} nao foi definida.')
+
+  def get_todas_tags_normalizadas(self):
+    return self.__tagsNormalizada
 
   # TODO verificar \n\\+
   def valida_tag(self, nomeTag: str, expressaoTag: str):
@@ -87,7 +104,8 @@ class Tags(object):
     # uma elemento, se verdadeiro a tag e valida
     if len(pilha) == 1:
       Logs.info(f'Tag {nomeTag} foi reconhecida.')
-      Logs.info(f'{nomeTag}: '+pilha[0])
+      #Logs.info(f'{nomeTag}: '+pilha[0])
+      self.__tagsNormalizada[nomeTag] = pilha[0]
       return True
     else:
       Logs.error(f'Tag {nomeTag} nao recohecida: expressao invalida')
