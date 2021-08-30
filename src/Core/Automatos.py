@@ -7,7 +7,6 @@
 from src.Utils.Logs import Logs
 from src.Core.Automato import Automato
 from src.Grafo.No import No
-from src.Grafo.Aresta import Aresta
 
 
 class Automatos(object):
@@ -17,6 +16,7 @@ class Automatos(object):
     nome = 0
     pilha = []
     charAnterior = ''
+    alfabeto = []
 
     for char in expressao:
       auxNoInicial = None
@@ -38,6 +38,8 @@ class Automatos(object):
         auxNoInicial.adicionar_trasicao(char, auxNoFinal)
         pilha.append(automato)
         charAnterior = ''
+        if char not in alfabeto:
+          alfabeto.append(char)
 
       else:
         if (char == '.' or char == '+'):
@@ -57,10 +59,8 @@ class Automatos(object):
                   'ã', auxPilha1.get_nos_iniciais()[0])
               auxNoInicial.adicionar_trasicao(
                   'ã', auxPilha2.get_nos_iniciais()[0])
-              for noAux1 in auxPilha1.get_nos_finais():
-                noAux1.adicionar_trasicao('ã', auxNoFinal)
-              for noAux2 in auxPilha2.get_nos_finais():
-                noAux2.adicionar_trasicao('ã', auxNoFinal)
+              auxPilha1.get_nos_finais()[0].adicionar_trasicao('ã', auxNoFinal)
+              auxPilha2.get_nos_finais()[0].adicionar_trasicao('ã', auxNoFinal)
               automato.adiciona_no_inicial(auxNoInicial)
               automato.adiciona_no_final(auxNoFinal)
               automato.adiciona_no(auxNoInicial)
@@ -75,12 +75,10 @@ class Automatos(object):
             else:
               auxPilha1 = pilha.pop()
               auxPilha2 = pilha.pop()
-              for noFinal in auxPilha2.get_nos_finais():
-                auxPilha2.remove_no_final(noFinal)
-                noFinal.adicionar_trasicao(
-                    'ã', auxPilha1.get_nos_iniciais()[0])
-              for noFinal in auxPilha1.get_nos_finais():
-                auxPilha2.adiciona_no_final(noFinal)
+              auxPilha2.get_nos_finais()[0].adicionar_trasicao(
+                  'ã', auxPilha1.get_nos_iniciais()[0])
+              auxPilha2.remove_no_final(auxPilha2.get_nos_finais()[0])
+              auxPilha2.adiciona_no_final(auxPilha1.get_nos_finais()[0])
               for no in auxPilha1.get_nos():
                 auxPilha2.adiciona_no(no)
               pilha.append(auxPilha2)
@@ -91,12 +89,10 @@ class Automatos(object):
             return False
           else:
             auxPilha1 = pilha.pop()
-            for noFinal in auxPilha1.get_nos_finais():
-              auxPilha1.remove_no_final(noFinal)
-              for noInicial in auxPilha1.get_nos_iniciais():
-                noFinal.adicionar_trasicao('ã', noInicial)
-            for noInicial in auxPilha1.get_nos_iniciais():
-              auxPilha1.adiciona_no_final(noInicial)
+            auxPilha1.get_nos_finais()[0].adicionar_trasicao(
+                'ã', auxPilha1.get_nos_iniciais()[0])
+            auxPilha1.remove_no_final(auxPilha1.get_nos_finais()[0])
+            auxPilha1.adiciona_no_final(auxPilha1.get_nos_iniciais()[0])
             pilha.append(auxPilha1)
 
         # Se não for nenhum caractere especial, insere normalmente na pilha
@@ -113,15 +109,20 @@ class Automatos(object):
             automato.adiciona_no(auxNoFinal)
             auxNoInicial.adicionar_trasicao(char, auxNoFinal)
             pilha.append(automato)
+            if char not in alfabeto:
+              alfabeto.append(char)
 
         charAnterior = char
 
     if len(pilha) == 1:
-      self.__automatos.append(pilha[0])
+      pilha[0].set_alfabeto(alfabeto)
       self.imprime_automato("AFN-Lambda", pilha[0])
       automatoAFN = self.remove_lambda(pilha[0])
       pilha.clear()
       self.imprime_automato("AFN", automatoAFN)
+      automatoAFD = self.gerar_AFD(automatoAFN)
+      self.imprime_automato("AFD", automatoAFD)
+      self.__automatos.append(automatoAFD)
 
   def get_automato(self, indice: int):
     if indice >= 0 and indice < len(self.__automatos):
@@ -163,12 +164,13 @@ class Automatos(object):
   def remove_lambda(self, automato):
     fechoLambda = {}
     auxVetor = []
-    print("\nFecho Lambda:")
+
     for no in automato.get_nos():
       auxVetor = []
       self.__alcanca_com_lambda(no, auxVetor)
       fechoLambda[no.get_nome()] = auxVetor
 
+    print("\nFecho Lambda:")
     for fechoL in fechoLambda:
       print('FL('+fechoL+'): ', end='')
       for st in fechoLambda[fechoL]:
@@ -178,6 +180,8 @@ class Automatos(object):
     automatoAFN = Automato()
     for nov in automato.get_nos():
       automatoAFN.adiciona_no(No(nov.get_nome()))
+
+    automatoAFN.set_alfabeto(automato.get_alfabeto())
 
     for non in automatoAFN.get_nos():
       auxNo = automato.get_no_por_nome(non.get_nome())
@@ -213,3 +217,69 @@ class Automatos(object):
 
     del automato
     return automatoAFN
+
+  def __gerar_string_nos(self, nos):
+    vetor_string = []
+    string_final = "{"
+    for no in nos:
+      vetor_string.append(no.get_nome())
+    vetor_string = sorted(vetor_string)
+    for str in vetor_string:
+      string_final += str + ","
+    string_final = string_final.rstrip(',')
+    string_final += "}"
+    return string_final
+
+  def __gerar_estados(self, estados, nos, alfabeto):
+    stringNos = self.__gerar_string_nos(nos)
+    if stringNos not in estados:
+      transicoes = {}
+      for char in alfabeto:
+        aux_transicoes = []
+        for no in nos:
+          for transicao in no.get_transicaoes():
+            if transicao.get_simbolo() == char:
+              aux_transicoes.append(transicao.get_no_destino())
+        transicoes[char] = aux_transicoes
+      nTransicoes = []
+      for aux in transicoes:
+        nTransicoes.append(transicoes[aux])
+      estados[stringNos] = nTransicoes
+
+      for nNos in estados[stringNos]:
+        if len(nNos) > 0:
+          self.__gerar_estados(estados, nNos, alfabeto)
+
+  def gerar_AFD(self, automato):
+    estados = {}
+    alfabeto = automato.get_alfabeto()
+    self.__gerar_estados(
+        estados, automato.get_nos_iniciais(), alfabeto)
+
+    automatoAFD = Automato()
+    automatoAFD.set_alfabeto(alfabeto)
+    for nomeNo in estados:
+      automatoAFD.adiciona_no(No(nomeNo))
+
+    for no in estados:
+      for i in range(len(alfabeto)):
+        if len(estados[no][i]) > 0:
+          automatoAFD.get_no_por_nome(no).adicionar_trasicao(
+              alfabeto[i], automatoAFD.get_no_por_nome(self.__gerar_string_nos(estados[no][i])))
+
+    automatoAFD.adiciona_no_inicial(automatoAFD.get_no_por_nome(
+        self.__gerar_string_nos(automato.get_nos_iniciais())))
+    for noAFD in automatoAFD.get_nos():
+      for noAFN in automato.get_nos_finais():
+        if (noAFN.get_nome()+"," in noAFD.get_nome() or noAFN.get_nome()+"}" in noAFD.get_nome()) and noAFD not in automatoAFD.get_nos_finais():
+          automatoAFD.adiciona_no_final(noAFD)
+
+    # renomeia os nós
+    nome = 0
+    for no in automatoAFD.get_nos():
+      no.set_nome('q'+str(nome))
+      nome = nome + 1
+
+    del automato
+
+    return automatoAFD

@@ -11,6 +11,7 @@ class Automato(object):
   __nosIniciais = []
   __nosFinais = []
   __nos = []
+  __alfabeto = []
 
   # variáveis usadas para analizar strings
   __estado = True
@@ -20,6 +21,9 @@ class Automato(object):
     self.__nosIniciais = []
     self.__nosFinais = []
     self.__nos = []
+    self.__alfabeto = []
+    self.__estado = True
+    self.__noAtual = self.__nosIniciais
 
   def get_nos_iniciais(self):
     return self.__nosIniciais
@@ -55,6 +59,12 @@ class Automato(object):
       if no.get_nome() == nome:
         return no
     return None
+
+  def set_alfabeto(self, alfabeto):
+    self.__alfabeto = alfabeto
+
+  def get_alfabeto(self):
+    return self.__alfabeto
 
   def get_estado(self):
     return self.__estado

@@ -8,6 +8,7 @@
 from src.Utils.Logs import Logs
 from src.Core.Tags import Tags
 from src.Core.Analizador import Analizador
+from src.Core.Automatos import Automatos
 from src.LeituraEscritaArquivos.LeituraAquivos import LeituraArquivos
 from src.LeituraEscritaArquivos.EscritaAquivos import EscritaArquivos
 
@@ -31,6 +32,7 @@ def interface():
 def main():
   tags = Tags()
   analizador = Analizador()  # TODO segunda entrega.
+  automatos = Automatos()
   escrever_resul = EscritaArquivos()
   arq_saida = ''
   interface()
@@ -50,8 +52,9 @@ def main():
               if ': ' in linha:
                 # divide a tags em nome_tag (tag[0]) e a tag em si (tag[1])
                 tag = linha.split(': ', 1)
-                # remove possiveis espacos iniciais e finais
-                tags.adicionar_tag(tag[0].upper(), tag[1].rstrip('\n'))
+
+                if tags.adicionar_tag(tag[0].upper(), tag[1].rstrip('\n')):
+                  automatos.adiciona_automato(tag[1].rstrip('\n'))
               else:
                 Logs.error('Formato invalido de tag!')
             Logs.info('Todas as tags foram lidas!')
@@ -97,6 +100,7 @@ def main():
       interface()
 
     # TODO comdanso da segunda parte :d, :p, :a
+    # Realiza a divisao em tags da string do arquivo informado
     elif entrada.startswith(':d'):
       Logs.warning('Comando sera implementado na parte 2 do trabalho.')
 
@@ -115,8 +119,9 @@ def main():
       if ': ' in entrada:
         # divide a tags em nome_tag (tag[0]) e a tag em si (tag[1])
         tag = entrada.split(': ', 1)
-        # remove possiveis espacos iniciais e finais
-        tags.adicionar_tag(tag[0].upper(), tag[1])
+
+        if tags.adicionar_tag(tag[0].upper(), tag[1]):
+          automatos.adiciona_automato(tag[1])
       else:
         Logs.error('Formato invalido de tag!')
 
