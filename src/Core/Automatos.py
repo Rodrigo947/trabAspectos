@@ -12,7 +12,7 @@ from src.Grafo.No import No
 class Automatos(object):
   __automatos = []
 
-  def adiciona_automato(self, expressao: str):
+  def adiciona_automato(self, nomeTag: str, expressao: str):
     nome = 0
     pilha = []
     charAnterior = ''
@@ -122,11 +122,15 @@ class Automatos(object):
       self.imprime_automato("AFN", automatoAFN)
       automatoAFD = self.gerar_AFD(automatoAFN)
       self.imprime_automato("AFD", automatoAFD)
+      automatoAFD.set_nome_tag(nomeTag)
       self.__automatos.append(automatoAFD)
 
   def get_automato(self, indice: int):
     if indice >= 0 and indice < len(self.__automatos):
       return self.__automatos[indice]
+
+  def get_automatos(self):
+    return self.__automatos
 
   def imprime_automato(self, titulo: str, automato: Automato):
     print("\n"+titulo+": ")
@@ -136,16 +140,16 @@ class Automatos(object):
         inicial_e_final += '+'
       if no in automato.get_nos_finais():
         inicial_e_final += '-'
-      for transicao in no.get_transicaoes():
+      for transicao in no.get_transicoes():
         print(no.get_nome()+inicial_e_final+': '+transicao.get_simbolo() +
               ' -> '+transicao.get_no_destino().get_nome())
-      if len(no.get_transicaoes()) == 0:
+      if len(no.get_transicoes()) == 0:
         print(no.get_nome()+inicial_e_final)
 
   def __alcanca_com_lambda(self, no, vetorAlcancaLambda):
     if no not in vetorAlcancaLambda:
       vetorAlcancaLambda.append(no)
-    for transicao in no.get_transicaoes():
+    for transicao in no.get_transicoes():
       if transicao.get_simbolo() == 'ã':
         if transicao.get_no_destino() not in vetorAlcancaLambda:
           vetorAlcancaLambda.append(transicao.get_no_destino())
@@ -155,7 +159,7 @@ class Automatos(object):
   def __remove_transicao_para_no(self, automato, noAlvo):
     for no in automato.get_nos():
       a_remover = []
-      for transicao in no.get_transicaoes():
+      for transicao in no.get_transicoes():
         if transicao.get_no_destino() == noAlvo:
           a_remover.append(transicao)
       for transicao in a_remover:
@@ -185,7 +189,7 @@ class Automatos(object):
 
     for non in automatoAFN.get_nos():
       auxNo = automato.get_no_por_nome(non.get_nome())
-      for auxTransicao in auxNo.get_transicaoes():
+      for auxTransicao in auxNo.get_transicoes():
         if auxTransicao.get_simbolo() != 'ã':
           non.adicionar_trasicao(auxTransicao.get_simbolo(), automatoAFN.get_no_por_nome(
               auxTransicao.get_no_destino().get_nome()))
@@ -206,7 +210,7 @@ class Automatos(object):
     # remove estados inuteis
     a_remover = []
     for no in automatoAFN.get_nos():
-      if len(no.get_transicaoes()) == 0 and no not in automatoAFN.get_nos_finais():
+      if len(no.get_transicoes()) == 0 and no not in automatoAFN.get_nos_finais():
         if no in automatoAFN.get_nos_iniciais():
           automatoAFN.remove_no_inicial(no)
         self.__remove_transicao_para_no(automatoAFN, no)
@@ -237,7 +241,7 @@ class Automatos(object):
       for char in alfabeto:
         aux_transicoes = []
         for no in nos:
-          for transicao in no.get_transicaoes():
+          for transicao in no.get_transicoes():
             if transicao.get_simbolo() == char:
               aux_transicoes.append(transicao.get_no_destino())
         transicoes[char] = aux_transicoes

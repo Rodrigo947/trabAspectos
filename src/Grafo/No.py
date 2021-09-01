@@ -5,7 +5,6 @@
 # Wiliam Rocha dos Santos       201876031
 
 from src.Grafo.Aresta import Aresta
-from src.Utils.Logs import Logs
 
 
 class No(object):
@@ -25,7 +24,7 @@ class No(object):
   def set_nome(self, nome: str):
     self.__nome = nome
 
-  def get_transicaoes(self):
+  def get_transicoes(self):
     return self.__transicoes
 
   def get_transicao(self, simbolo: str):
@@ -36,3 +35,15 @@ class No(object):
 
   def remove_trasicao(self, transicao):
     self.__transicoes.remove(transicao)
+
+  def verificaTransicoes(self, simbolo: str):
+    '''
+      Verifica se existe uma transicao que consome o simbolo,
+      se sim retorna o no destino,
+      se nao retorna False 
+    '''
+    for transicao in self.get_transicoes():
+      if transicao.get_simbolo() == simbolo:
+        return transicao.get_no_destino()
+
+    return False

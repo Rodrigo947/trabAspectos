@@ -55,7 +55,6 @@ class Tags(object):
   def get_todas_tags_normalizadas(self):
     return self.__tagsNormalizada
 
-  # TODO verificar \n\\+
   def valida_tag(self, nomeTag: str, expressaoTag: str):
     pilha = []
     expressao = ''
@@ -104,7 +103,6 @@ class Tags(object):
     # uma elemento, se verdadeiro a tag e valida
     if len(pilha) == 1:
       Logs.info(f'Tag {nomeTag} foi reconhecida.')
-      #Logs.info(f'{nomeTag}: '+pilha[0])
       self.__tagsNormalizada[nomeTag] = pilha[0]
       return True
     else:
