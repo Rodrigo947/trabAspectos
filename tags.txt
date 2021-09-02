@@ -5,8 +5,8 @@ EQUALS: =
 VAR_ERROR: ab+c+x+.
 VAR: ab+c+x+
 SPACE:  
-TEST_ERROR: /\*\*/*
-TEST: /\*\*/+
+OPERADOR_ERROR: /\*+-+\+\++
+OPERADOR: /\*+-+\++
 PAR: ab.ba.+aa.+bb.+*
 AB_ERROR: a*b*
 AB: a*b*.

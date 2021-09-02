@@ -89,11 +89,12 @@ class Automato(object):
   '''
   Para cada No inicial verifica se eh possivel chegar em um No final
   '''
+
   def processar_texto(self, texto: str) -> bool:
     for noInicial in self.get_nos_iniciais():
       proximoNo = noInicial
       i = 0
-      while (proximoNo):
+      while (proximoNo and i < len(texto)):
         proximoNo = proximoNo.verificaTransicoes(texto[i])
         i = i+1
         # Caso o proximo No seja um no final e todos os simbolos foram
@@ -103,34 +104,33 @@ class Automato(object):
 
     return False
 
+  # Imprime definição formal de um automato
 
+  def definicao_formal(self, nome: int):
 
-  #Imprime definição formal de um automato
-  def definicao_formal(self, nome:int):
-    
-    #Nos inicais
+    # Nos inicais
     definicaoNoInicial = ""
     for nosiniciais in self.get_nos_iniciais():
       definicaoNoInicial = definicaoNoInicial + nosiniciais.get_nome() + ","
-    definicaoNoInicial=definicaoNoInicial[:-1]
+    definicaoNoInicial = definicaoNoInicial[:-1]
 
-    #demais nos
-    allNos =  ""
+    # demais nos
+    allNos = ""
     for no in self.get_nos():
-      allNos = allNos  + no.get_nome() + ","
-    allNos=allNos[:-1]
+      allNos = allNos + no.get_nome() + ","
+    allNos = allNos[:-1]
 
-    #alfabeto
+    # alfabeto
     alfabeto = ""
     for letra in self.__alfabeto:
       alfabeto = alfabeto + letra + ","
-    alfabeto=alfabeto[:-1]
+    alfabeto = alfabeto[:-1]
 
-    #nosfinais
+    # nosfinais
     definicaoNoFinal = ""
     for nosfinais in self.get_nos_finais():
       definicaoNoFinal = definicaoNoFinal + nosfinais.get_nome() + ","
-    definicaoNoFinal=definicaoNoFinal[:-1]
- 
-    #impressao
+    definicaoNoFinal = definicaoNoFinal[:-1]
+
+    # impressao
     print(f'M{nome} = ( { {allNos}  }, {  {alfabeto}  }, ã{nome} , {definicaoNoInicial}, {  {definicaoNoFinal}  })')

@@ -119,7 +119,7 @@ def main():
         analizador.analizar(automatos, string_entrada, escrever_resul)
 
     # COMANDO :a Lista as definicoes formais dos automatos em memoria
-    elif entrada.startswith(':a '):
+    elif entrada.startswith(':a'):
       automatos.listardefinicoes()
       #Logs.warning("Comando sera implementado na parte 2 do trabalho.")
 
