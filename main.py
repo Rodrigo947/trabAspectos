@@ -5,6 +5,7 @@
 # Wiliam Rocha dos Santos       201876031
 
 # Arquivo principal (Main)
+from src.Core.Automato import Automato
 from src.Utils.Logs import Logs
 from src.Core.Tags import Tags
 from src.Core.Analizador import Analizador
@@ -118,8 +119,9 @@ def main():
         analizador.analizar(automatos, string_entrada, escrever_resul)
 
     # COMANDO :a Lista as definicoes formais dos automatos em memoria
-    elif entrada.startswith(':a'):
-      Logs.warning("Comando sera implementado na parte 2 do trabalho.")
+    elif entrada.startswith(':a '):
+      automatos.listardefinicoes()
+      #Logs.warning("Comando sera implementado na parte 2 do trabalho.")
 
     else:  # Insercao de tag
       if ': ' in entrada:

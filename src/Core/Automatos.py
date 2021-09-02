@@ -287,3 +287,14 @@ class Automatos(object):
     del automato
 
     return automatoAFD
+    
+    
+  #Imprime definição formal de todos os automatos registrados na memória
+  def listardefinicoes(self):
+    count = 0
+    if(len(self.__automatos)> 0 ):
+      for automato in self.__automatos:
+        automato.definicao_formal(count)
+        count = count + 1
+    else:
+      Logs.warning("Nao há algum autômato registrado na memória!")
